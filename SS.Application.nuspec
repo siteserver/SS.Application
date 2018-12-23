@@ -6,7 +6,7 @@
     <title>SiteServer CMS 依申请公开插件</title>
     <authors>SiteServer CMS</authors>
     <owners>siteserver</owners>
-    <licenseUrl></licenseUrl>
+    <licenseUrl>https://github.com/siteserver/SS.Application/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://plugins.siteserver.cn/ss.application/</projectUrl>
     <iconUrl>https://plugins.siteserver.cn/ss.application/logo.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
