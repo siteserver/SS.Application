@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9868C93-B15E-4310-8108-5B7018FF2F37}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SS.Application</RootNamespace>
+    <AssemblyName>SS.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SiteServer.Plugin, Version=2.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SiteServer.Plugin.2.1.3\lib\net45\SiteServer.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\Pages\PagesAddController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerReplyController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerTranslateController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerRedoController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerCheckController.cs" />
+    <Compile Include="Controllers\Pages\PagesDepartmentsLayerAddController.cs" />
+    <Compile Include="Controllers\Pages\PagesDepartmentsController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerDenyController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerAcceptController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsLayerDeleteController.cs" />
+    <Compile Include="Controllers\Pages\PagesViewController.cs" />
+    <Compile Include="Controllers\Pages\PagesTemplatesController.cs" />
+    <Compile Include="Controllers\Pages\PagesSettingsController.cs" />
+    <Compile Include="Controllers\Pages\PagesContentsController.cs" />
+    <Compile Include="Core\DataCountManager.cs" />
+    <Compile Include="Core\DepartmentManager.cs" />
+    <Compile Include="Core\LogManager.cs" />
+    <Compile Include="Core\Model\FileInfo.cs" />
+    <Compile Include="Core\Model\LogInfo.cs" />
+    <Compile Include="Core\Model\DepartmentInfo.cs" />
+    <Compile Include="Core\Model\Settings.cs" />
+    <Compile Include="Core\Provider\FileDao.cs" />
+    <Compile Include="Core\Provider\LogDao.cs" />
+    <Compile Include="Core\Provider\DepartmentDao.cs" />
+    <Compile Include="Core\TemplateManager.cs" />
+    <Compile Include="Core\Utils\AttackUtils.cs" />
+    <Compile Include="Core\Utils\CacheUtils.cs" />
+    <Compile Include="Core\Utils\CsvUtils.cs" />
+    <Compile Include="Core\Utils\DataState.cs" />
+    <Compile Include="Core\Utils\Extensions.cs" />
+    <Compile Include="Core\Utils\FieldTypeParser.cs" />
+    <Compile Include="Core\Utils\StringUtils.cs" />
+    <Compile Include="Core\Utils\TranslateUtils.cs" />
+    <Compile Include="Core\Utils\ApplicationUtils.cs" />
+    <Compile Include="Core\Parser\StlApplication.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Core\Model\DataInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Provider\DataDao.cs" />
+    <Compile Include="Controllers\PingController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="assets\fonts\fontawesome-webfont.eot" />
+    <None Include="assets\fonts\fontawesome-webfont.ttf" />
+    <None Include="assets\fonts\fontawesome-webfont.woff" />
+    <None Include="assets\fonts\fontawesome-webfont.woff2" />
+    <None Include="assets\fonts\FontAwesome.otf" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SS.Application.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\font-awesome-4.7.0.min.css" />
+    <Content Include="assets\css\siteserver.min.css" />
+    <Content Include="assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\images\error.png" />
+    <Content Include="assets\images\favicon.ico" />
+    <Content Include="assets\images\loading.gif" />
+    <Content Include="assets\images\success.png" />
+    <Content Include="assets\js\query.js" />
+    <Content Include="assets\js\submit.js" />
+    <Content Include="assets\js\utils.js" />
+    <Content Include="assets\lib\axios-0.18.0.min.js" />
+    <Content Include="assets\lib\bootstrap.min.js" />
+    <Content Include="assets\lib\es6-promise.auto.min.js" />
+    <Content Include="assets\lib\iframe-resizer-3.6.3\iframeResizer.contentWindow.min.js" />
+    <Content Include="assets\lib\iframe-resizer-3.6.3\iframeResizer.min.js" />
+    <Content Include="assets\lib\jquery-1.9.1.min.js" />
+    <Content Include="assets\lib\js.cookie-2.2.0.js" />
+    <Content Include="assets\lib\layer-3.1.1\layer.js" />
+    <Content Include="assets\lib\layer-3.1.1\mobile\layer.js" />
+    <Content Include="assets\lib\layer-3.1.1\mobile\need\layer.css" />
+    <Content Include="assets\lib\layer-3.1.1\theme\default\icon-ext.png" />
+    <Content Include="assets\lib\layer-3.1.1\theme\default\icon.png" />
+    <Content Include="assets\lib\layer-3.1.1\theme\default\layer.css" />
+    <Content Include="assets\lib\layer-3.1.1\theme\default\loading-0.gif" />
+    <Content Include="assets\lib\layer-3.1.1\theme\default\loading-1.gif" />
+    <Content Include="assets\lib\layer-3.1.1\theme\default\loading-2.gif" />
+    <Content Include="assets\lib\lodash-4.17.10.min.js" />
+    <Content Include="assets\lib\md5-2.10.0.min.js" />
+    <Content Include="assets\lib\modernizr.min.js" />
+    <Content Include="assets\lib\popper.min.js" />
+    <Content Include="assets\lib\sweetalert2-7.28.4.all.min.js" />
+    <Content Include="assets\lib\vee-validate-2.1.0.js" />
+    <Content Include="assets\lib\vee-validate-locale-zh_CN-2.1.0.js" />
+    <Content Include="assets\lib\vue-2.5.16.min.js" />
+    <Content Include="assets\lib\vue-multiselect-2.1.0\script.min.js" />
+    <Content Include="assets\lib\vue-multiselect-2.1.0\style.min.css" />
+    <Content Include="assets\lib\vue-upload-component-2.8.14.js" />
+    <Content Include="assets\lib\vue2-datepicker-2.4.3.min.js" />
+    <Content Include="assets\lib\web-uploader\js\Q.js" />
+    <Content Include="assets\lib\web-uploader\js\Q.md5File.js" />
+    <Content Include="assets\lib\web-uploader\js\Q.Uploader.js" />
+    <Content Include="assets\lib\web-uploader\js\Q.Uploader.slice.js" />
+    <Content Include="assets\lib\web-uploader\js\Q.Uploader.UI.File.js" />
+    <Content Include="assets\lib\web-uploader\js\Q.Uploader.UI.Image.js" />
+    <Content Include="assets\lib\web-uploader\js\spark-md5.js" />
+    <Content Include="assets\lib\web-uploader\Q.Uploader.file.all.js" />
+    <Content Include="assets\lib\web-uploader\Q.Uploader.image.all.js" />
+    <Content Include="docs\logo.svg" />
+    <Content Include="pages\add.html" />
+    <Content Include="pages\add.js" />
+    <Content Include="pages\contents.html" />
+    <Content Include="pages\contents.js" />
+    <Content Include="pages\contentsLayerAccept.html" />
+    <Content Include="pages\contentsLayerAccept.js" />
+    <Content Include="pages\contentsLayerCheck.html" />
+    <Content Include="pages\contentsLayerCheck.js" />
+    <Content Include="pages\contentsLayerDelete.html" />
+    <Content Include="pages\contentsLayerDelete.js" />
+    <Content Include="pages\contentsLayerDeny.html" />
+    <Content Include="pages\contentsLayerDeny.js" />
+    <Content Include="pages\contentsLayerRedo.html" />
+    <Content Include="pages\contentsLayerRedo.js" />
+    <Content Include="pages\contentsLayerReply.html" />
+    <Content Include="pages\contentsLayerReply.js" />
+    <Content Include="pages\contentsLayerTranslate.html" />
+    <Content Include="pages\contentsLayerTranslate.js" />
+    <Content Include="pages\departments.html" />
+    <Content Include="pages\departments.js" />
+    <Content Include="pages\departmentsLayerAdd.html" />
+    <Content Include="pages\departmentsLayerAdd.js" />
+    <Content Include="pages\fields.html" />
+    <Content Include="pages\fields.js" />
+    <Content Include="pages\fieldsLayerStyle.html" />
+    <Content Include="pages\fieldsLayerStyle.js" />
+    <Content Include="pages\fieldsLayerValidate.html" />
+    <Content Include="pages\fieldsLayerValidate.js" />
+    <Content Include="pages\forms.html" />
+    <Content Include="pages\forms.js" />
+    <Content Include="pages\logAdd.html" />
+    <Content Include="pages\logAdd.js" />
+    <Content Include="pages\logs.html" />
+    <Content Include="pages\logs.js" />
+    <Content Include="pages\logsLayerReply.html" />
+    <Content Include="pages\logsLayerReply.js" />
+    <Content Include="pages\settings.html" />
+    <Content Include="pages\settings.js" />
+    <Content Include="pages\templates.html" />
+    <Content Include="pages\templates.js" />
+    <Content Include="pages\view.html" />
+    <Content Include="pages\view.js" />
+    <Content Include="templates\css\froala_blocks.min.css" />
+    <Content Include="templates\css\simple.css" />
+    <Content Include="templates\imgs\alt_wide_1.svg" />
+    <Content Include="templates\imgs\alt_wide_2.svg" />
+    <Content Include="templates\imgs\alt_wide_3.svg" />
+    <Content Include="templates\imgs\bg_0.svg" />
+    <Content Include="templates\imgs\bg_1.svg" />
+    <Content Include="templates\imgs\bg_2.svg" />
+    <Content Include="templates\imgs\bg_3.svg" />
+    <Content Include="templates\imgs\bg_4.svg" />
+    <Content Include="templates\imgs\bg_c_1.svg" />
+    <Content Include="templates\imgs\bg_c_2.svg" />
+    <Content Include="templates\imgs\bg_c_3.svg" />
+    <Content Include="templates\imgs\colors_wide_1.jpg" />
+    <Content Include="templates\imgs\colors_wide_2.jpg" />
+    <Content Include="templates\imgs\colors_wide_3.jpg" />
+    <Content Include="templates\imgs\img_bg.jpg" />
+    <Content Include="templates\imgs\img_logo.png" />
+    <Content Include="templates\imgs\img_round.png" />
+    <Content Include="templates\imgs\img_round.svg" />
+    <Content Include="templates\imgs\img_square_1.svg" />
+    <Content Include="templates\imgs\img_square_2.svg" />
+    <Content Include="templates\imgs\img_square_3.svg" />
+    <Content Include="templates\imgs\img_square_4.svg" />
+    <Content Include="templates\imgs\img_tall.png" />
+    <Content Include="templates\imgs\img_very_tall.png" />
+    <Content Include="templates\imgs\img_very_wide.svg" />
+    <Content Include="templates\imgs\iphone_x.jpg" />
+    <Content Include="templates\query1\index.html" />
+    <Content Include="templates\query1\sample.png" />
+    <Content Include="templates\submit1\index.html" />
+    <Content Include="templates\submit1\sample.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

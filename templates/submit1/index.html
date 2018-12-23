@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="bg-white">
+
+<head>
+  <meta charset="utf-8" />
+  <title>提交申请</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script type="text/javascript" src="../../assets/lib/iframe-resizer-3.6.3/iframeResizer.contentWindow.min.js"></script>
+</head>
+
+<body class="p-0 bg-white">
+  <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="../../assets/css/siteserver.min.css" rel="stylesheet" type="text/css" />
+  <div id="main" class="m-t-15 m-b-15 m-l-15 m-r-15">
+    <template v-if="pageLoad">
+      <template v-if="pageType === 'form'">
+        <div v-if="pageAlert" class="alert" :class="{ 'alert-warning': pageAlert.type === 'warning', 'alert-success': pageAlert.type === 'success', 'alert-danger': pageAlert.type === 'danger' }">
+          <button v-on:click="pageAlert = null" class="close" data-dismiss="alert">×</button>
+          <span v-html="pageAlert.html"></span>
+        </div>
+        <form v-on:submit="btnSubmitClick">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td class="text-center align-middle text-danger" rowspan="6">申<br>请<br>人<br>信<br>息</td>
+                    <td class="align-middle"> 申请人类型 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="3">
+                      <div class="mt-2 ml-2">
+                        <div class="radio radio-primary form-check-inline">
+                          <input v-model="dataInfo.isOrganization" name="isOrganization" type="radio" id="isOrganization_false"
+                            :value="false">
+                          <label for="isOrganization_false"> 公民 </label>
+                        </div>
+                        <div class="radio radio-primary form-check-inline">
+                          <input v-model="dataInfo.isOrganization" name="isOrganization" type="radio" id="isOrganization_true"
+                            :value="true">
+                          <label for="isOrganization_true"> 法人/其他组织 </label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="!dataInfo.isOrganization">
+                    <td class="align-middle" style="width:25%"> 姓名 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" style="width:25%">
+                      <input v-model="dataInfo.civicName" name="civicName" data-vv-as="姓名" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('civicName') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('civicName')" class="text-danger"> {{ errors.first('civicName') }}
+                      </small>
+                    </td>
+                    <td class="align-middle" style="width:25%">工作单位</td>
+                    <td class="align-middle" style="width:25%">
+                      <input v-model="dataInfo.civicOrganization" class="form-control form-control-sm" type="text">
+                    </td>
+                  </tr>
+                  <tr v-if="!dataInfo.isOrganization">
+                    <td class="align-middle">证件名称</td>
+                    <td class="align-middle">
+                      <select v-model="dataInfo.civicCardType" class="form-control form-control-sm">
+                        <option value="身份证">身份证</option>
+                        <option value="学生证">学生证</option>
+                        <option value="军官证">军官证</option>
+                        <option value="工作证">工作证</option>
+                      </select>
+                    </td>
+                    <td class="align-middle"> 证件号码 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.civicCardNo" name="civicCardNo" data-vv-as="证件号码" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('civicCardNo') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('civicCardNo')" class="text-danger"> {{ errors.first('civicCardNo') }}
+                      </small>
+                    </td>
+                  </tr>
+                  <tr v-if="!dataInfo.isOrganization">
+                    <td class="align-middle"> 联系电话 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.civicPhone" name="civicPhone" data-vv-as="联系电话" v-validate="'required|mobile'"
+                        :class="{'is-invalid': errors.has('civicPhone') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('civicPhone')" class="text-danger"> {{ errors.first('civicPhone') }}
+                      </small>
+                    </td>
+                    <td class="align-middle"> 邮政编码 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.civicPostCode" name="civicPostCode" data-vv-as="邮政编码" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('civicPostCode') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('civicPostCode')" class="text-danger"> {{ errors.first('civicPostCode')
+                        }} </small>
+                    </td>
+                  </tr>
+                  <tr v-if="!dataInfo.isOrganization">
+                    <td class="align-middle"> 联系地址 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="3">
+                      <input v-model="dataInfo.civicAddress" name="civicAddress" data-vv-as="联系地址" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('civicAddress') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('civicAddress')" class="text-danger"> {{ errors.first('civicAddress') }}
+                      </small>
+                    </td>
+                  </tr>
+                  <tr v-if="!dataInfo.isOrganization">
+                    <td class="align-middle"> 电子邮件 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.civicEmail" name="civicEmail" data-vv-as="电子邮件" v-validate="'required|email'"
+                        :class="{'is-invalid': errors.has('civicEmail') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('civicEmail')" class="text-danger"> {{ errors.first('civicEmail') }}
+                      </small>
+                    </td>
+                    <td class="align-middle">传真</td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.civicFax" class="form-control form-control-sm" type="text">
+                    </td>
+                  </tr>
+                  <tr v-if="dataInfo.isOrganization">
+                    <td class="align-middle"> 名称 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgName" name="orgName" data-vv-as="名称" v-validate="'required'" :class="{'is-invalid': errors.has('orgName') }"
+                        type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgName')" class="text-danger"> {{ errors.first('orgName') }} </small>
+                    </td>
+                    <td class="align-middle">组织机构代码</td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgUnitCode" name="orgUnitCode" class="form-control form-control-sm"
+                        type="text">
+                    </td>
+                  </tr>
+                  <tr v-if="dataInfo.isOrganization">
+                    <td class="align-middle"> 法人代表 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgLegalPerson" name="orgLegalPerson" data-vv-as="法人代表" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('orgLegalPerson') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgLegalPerson')" class="text-danger"> {{ errors.first('orgLegalPerson')
+                        }} </small>
+                    </td>
+                    <td class="align-middle"> 联系人姓名 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgLinkName" id="orgLinkName" name="orgLinkName" data-vv-as="联系人姓名"
+                        v-validate="'required'" :class="{'is-invalid': errors.has('orgLinkName') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgLinkName')" class="text-danger"> {{ errors.first('orgLinkName') }}
+                      </small>
+                    </td>
+                  </tr>
+                  <tr v-if="dataInfo.isOrganization">
+                    <td class="align-middle"> 联系电话 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgPhone" name="orgPhone" data-vv-as="联系电话" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('orgPhone') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgPhone')" class="text-danger"> {{ errors.first('orgPhone') }} </small>
+                    </td>
+                    <td class="align-middle"> 邮政编码 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgPostCode" name="orgPostCode" data-vv-as="邮政编码" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('orgPostCode') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgPostCode')" class="text-danger"> {{ errors.first('orgPostCode') }}
+                      </small>
+                    </td>
+                  </tr>
+                  <tr v-if="dataInfo.isOrganization">
+                    <td class="align-middle"> 联系地址 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="3">
+                      <input v-model="dataInfo.orgAddress" name="orgAddress" data-vv-as="联系地址" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('orgAddress') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgAddress')" class="text-danger"> {{ errors.first('orgAddress') }}
+                      </small>
+                    </td>
+                  </tr>
+                  <tr v-if="dataInfo.isOrganization">
+                    <td class="align-middle"> 电子邮件 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgEmail" name="orgEmail" data-vv-as="电子邮件" v-validate="'required|email'"
+                        :class="{'is-invalid': errors.has('orgEmail') }" type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('orgEmail')" class="text-danger"> {{ errors.first('orgEmail') }} </small>
+                    </td>
+                    <td class="align-middle">传真</td>
+                    <td class="align-middle">
+                      <input v-model="dataInfo.orgFax" class="form-control form-control-sm" type="text">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center align-middle text-danger" rowspan="13"> 所<br> 需<br> 信<br> 息<br> 情<br> 况 </td>
+                    <td class="align-middle"> 标题 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="3">
+                      <input v-model="dataInfo.title" name="title" data-vv-as="标题" v-validate="'required'" :class="{'is-invalid': errors.has('title') }"
+                        type="text" class="form-control form-control-sm" />
+                      <small v-if="errors.has('title')" class="text-danger"> {{ errors.first('title') }} </small>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle"> 所需信息的<br /> 内容描述 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="3">
+                      <textarea v-model="dataInfo.content" name="content" data-vv-as="所需信息的内容描述" rows="10" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('content') }" type="text" class="form-control form-control-sm"></textarea>
+                      <small v-if="errors.has('content')" class="text-danger"> {{ errors.first('content') }} </small>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle"> 所需信息的<br /> 用途 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="3">
+                      <textarea v-model="dataInfo.purpose" name="purpose" data-vv-as="所需信息的用途" rows="5" v-validate="'required'"
+                        :class="{'is-invalid': errors.has('purpose') }" type="text" class="form-control form-control-sm"></textarea>
+                      <small v-if="errors.has('purpose')" class="text-danger"> {{ errors.first('purpose') }} </small>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle"> 是否申请减免费用 <span class="text-danger">*</span>
+                    </td>
+                    <td class="align-middle" colspan="2"> 所需信息的指定提供方式（可选） </td>
+                    <td class="align-middle"> 获取信息的方式（可选） </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="radio radio-primary">
+                        <input v-model="dataInfo.isApplyFree" name="isApplyFree" id="isApplyFree_true" type="radio"
+                          data-vv-as="是否申请减免费用" v-validate="'required'" :value="true">
+                        <label for="isApplyFree_true">申请 (请提供相关证明)</label>
+                      </div>
+                      <div class="radio radio-primary">
+                        <input v-model="dataInfo.isApplyFree" name="isApplyFree" id="isApplyFree_false" type="radio"
+                          data-vv-as="是否申请减免费用" v-validate="'required'" :value="false">
+                        <label for="isApplyFree_false">不申请</label>
+                      </div>
+                      <small v-if="errors.has('isApplyFree')" class="text-danger"> {{ errors.first('isApplyFree') }}
+                      </small>
+                    </td>
+                    <td colspan="2">
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="provideType" value="纸面" name="provideType" id="provideType_1">
+                        <label for="provideType_1">纸面</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="provideType" value="电子邮件" name="provideType" id="provideType_2">
+                        <label for="provideType_2">电子邮件</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="provideType" value="光盘" name="provideType" id="provideType_3">
+                        <label for="provideType_3">光盘</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="provideType" value="磁盘" name="provideType" id="provideType_4">
+                        <label for="provideType_4">磁盘</label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="obtainType" value="邮寄" name="obtainType" id="obtainType_1">
+                        <label for="obtainType_1">邮寄</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="obtainType" value="快递" name="obtainType" id="obtainType_2">
+                        <label for="obtainType_2">快递</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="obtainType" value="电子邮件" name="obtainType" id="obtainType_3">
+                        <label for="obtainType_3">电子邮件</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="obtainType" value="传真" name="obtainType" id="obtainType_4">
+                        <label for="obtainType_4">传真</label>
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                        <input type="checkbox" v-model="obtainType" value="自行领取" name="obtainType" id="obtainType_5">
+                        <label for="obtainType_5">自行领取</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="settings.isSelectDepartment && departmentInfoList && departmentInfoList.length > 0">
+                    <td class="align-middle" colspan="4"> 选择所需信息的机关单位（可选） </td>
+                  </tr>
+                  <tr v-if="settings.isSelectDepartment && departmentInfoList && departmentInfoList.length > 0">
+                    <td class="align-middle" colspan="4">
+                      <div class="mt-2 ml-2">
+                        <div v-for="departmentInfo in departmentInfoList" class="radio radio-primary form-check-inline">
+                          <input v-model="dataInfo.departmentId" type="radio" :id="'checkbox' + departmentInfo.id"
+                            :value="departmentInfo.id">
+                          <label :for="'checkbox' + departmentInfo.id"> {{ departmentInfo.departmentName }} </label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <button type="button" @click="btnSubmitClick" class="btn btn-primary w-md mr-2">提交申请</button>
+          </div>
+        </form>
+      </template>
+      <template v-else-if="pageType === 'error'">
+        <div class="text-center my-5">
+          <img class="mt-3" src="../../assets/images/error.png" />
+          <p class="lead mt-3 text-nowrap text-danger">{{ errorMessage }}</p>
+        </div>
+      </template>
+      <template v-else-if="pageType === 'success'">
+        <div class="text-center my-5">
+          <img class="mt-3" src="../../assets/images/success.png" />
+          <p class="lead mt-3 text-nowrap text-primary">申请提交成功！</p>
+          <p class="mt-3 text-muted">您的申请已经提交成功，相关部门将会尽快处理。</p>
+          <p class="mt-3 text-muted">请记住查询码：<span class="text-primary">{{ dataInfo.queryCode }}</span>，以获取申请结果。</p>
+        </div>
+      </template>
+    </template>
+    <template v-else>
+      <div class="text-center my-5">
+        <img class="mt-3" src="../../assets/images/loading.gif" />
+        <p v-if="dataInfo.title" class="lead mt-3 text-nowrap">申请提交中，请稍后...</p>
+        <p v-else class="lead mt-3 text-nowrap">载入中，请稍后...</p>
+      </div>
+    </template>
+  </div>
+  <script src="../../assets/lib/vue-2.5.16.min.js" type="text/javascript"></script>
+  <script src="../../assets/lib/vee-validate-2.1.0.js"></script>
+  <script src="../../assets/lib/vee-validate-locale-zh_CN-2.1.0.js"></script>
+  <script src="../../assets/lib/es6-promise.auto.min.js"></script>
+  <script src="../../assets/lib/axios-0.18.0.min.js"></script>
+  <script src="../../assets/lib/lodash-4.17.10.min.js" type="text/javascript"></script>
+  <script src="../../assets/js/submit.js" type="text/javascript"></script>
+</body>
+
+</html>
