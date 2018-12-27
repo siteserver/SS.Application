@@ -62,6 +62,7 @@
     <Compile Include="Controllers\Pages\PagesContentsLayerTranslateController.cs" />
     <Compile Include="Controllers\Pages\PagesContentsLayerRedoController.cs" />
     <Compile Include="Controllers\Pages\PagesContentsLayerCheckController.cs" />
+    <Compile Include="Controllers\Pages\PagesTemplatesLayerEditController.cs" />
     <Compile Include="Controllers\Pages\PagesDepartmentsLayerAddController.cs" />
     <Compile Include="Controllers\Pages\PagesDepartmentsController.cs" />
     <Compile Include="Controllers\Pages\PagesContentsLayerDenyController.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Core\Model\LogInfo.cs" />
     <Compile Include="Core\Model\DepartmentInfo.cs" />
     <Compile Include="Core\Model\Settings.cs" />
+    <Compile Include="Core\Model\TemplateInfo.cs" />
     <Compile Include="Core\Provider\FileDao.cs" />
     <Compile Include="Core\Provider\LogDao.cs" />
     <Compile Include="Core\Provider\DepartmentDao.cs" />
@@ -202,38 +204,6 @@
     <Content Include="pages\templates.js" />
     <Content Include="pages\view.html" />
     <Content Include="pages\view.js" />
-    <Content Include="templates\css\froala_blocks.min.css" />
-    <Content Include="templates\css\simple.css" />
-    <Content Include="templates\imgs\alt_wide_1.svg" />
-    <Content Include="templates\imgs\alt_wide_2.svg" />
-    <Content Include="templates\imgs\alt_wide_3.svg" />
-    <Content Include="templates\imgs\bg_0.svg" />
-    <Content Include="templates\imgs\bg_1.svg" />
-    <Content Include="templates\imgs\bg_2.svg" />
-    <Content Include="templates\imgs\bg_3.svg" />
-    <Content Include="templates\imgs\bg_4.svg" />
-    <Content Include="templates\imgs\bg_c_1.svg" />
-    <Content Include="templates\imgs\bg_c_2.svg" />
-    <Content Include="templates\imgs\bg_c_3.svg" />
-    <Content Include="templates\imgs\colors_wide_1.jpg" />
-    <Content Include="templates\imgs\colors_wide_2.jpg" />
-    <Content Include="templates\imgs\colors_wide_3.jpg" />
-    <Content Include="templates\imgs\img_bg.jpg" />
-    <Content Include="templates\imgs\img_logo.png" />
-    <Content Include="templates\imgs\img_round.png" />
-    <Content Include="templates\imgs\img_round.svg" />
-    <Content Include="templates\imgs\img_square_1.svg" />
-    <Content Include="templates\imgs\img_square_2.svg" />
-    <Content Include="templates\imgs\img_square_3.svg" />
-    <Content Include="templates\imgs\img_square_4.svg" />
-    <Content Include="templates\imgs\img_tall.png" />
-    <Content Include="templates\imgs\img_very_tall.png" />
-    <Content Include="templates\imgs\img_very_wide.svg" />
-    <Content Include="templates\imgs\iphone_x.jpg" />
-    <Content Include="templates\query1\index.html" />
-    <Content Include="templates\query1\sample.png" />
-    <Content Include="templates\submit1\index.html" />
-    <Content Include="templates\submit1\sample.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
 var $url = '/templates';
+var $urlHtml = '/templates/html';
 
 var data = {
   siteId: utils.getQueryString('siteId'),
@@ -6,72 +7,115 @@ var data = {
   pageConfig: null,
   pageAlert: null,
   pageType: 'loading',
-  templateType: 'submit',
-  templates: null,
+  templateInfoList: null,
+  name: null,
   templateHtml: null,
 };
 
 var methods = {
-  loadTemplates: function (templateType) {
+  getIconUrl: function (templateInfo) {
+    return '../templates/' + templateInfo.name + '/' + templateInfo.icon;
+  },
+
+  loadTemplates: function () {
     var $this = this;
-    this.templateType = templateType;
 
     if (this.pageLoad) {
       utils.loading(true);
     }
 
-    $api.get($url + '?siteId=' + this.siteId + '&templateType=' + this.templateType).then(function (response) {
+    $api.get($url + '?siteId=' + this.siteId).then(function (response) {
       var res = response.data;
 
-      utils.loading(false);
-      $this.templates = res.value;
+      $this.templateInfoList = res.value;
       $this.pageType = 'list';
     }).catch(function (error) {
       $this.pageAlert = utils.getPageAlert(error);
     }).then(function () {
+      utils.loading(false);
       $this.pageLoad = true;
     });
   },
 
   getPreviewUrl: function (template) {
-    return template.templateUrl + '/' + template.id + '/index.html?siteId=' + this.siteId + '&apiUrl=' + encodeURIComponent(this.apiUrl);
+    return '../templates/' + template.name + '/' + template.main + '?siteId=' + this.siteId + '&apiUrl=' + encodeURIComponent(this.apiUrl);
   },
 
-  btnGetTemplateDefaultClick: function (template) {
-    this.templateHtml = '<stl:application theme="' + template.id + '"></stl:application>';
-    this.pageType = 'templateHtml';
-    setTimeout(function () {
-      $('.js-copytextarea').css({
-        height: 65
-      });
-    }, 100);
+  btnCloneClick: function (name) {
+    var $this = this;
+    utils.openLayer({
+      title: '克隆模板',
+      url: 'templatesLayerEdit.html?siteId=' + $this.siteId + '&type=clone&name=' + name + '&apiUrl=' + encodeURIComponent($this.apiUrl)
+    });
   },
 
-  btnGetTemplateHtmlClick: function (template) {
-    this.templateHtml = '<stl:application>' + template.html + '</stl:application>';
-    this.pageType = 'templateHtml';
-    setTimeout(function () {
-      $('.js-copytextarea').css({
-        height: $(document).height() - 150
-      });
-    }, 100);
+  btnDeleteClick: function (template) {
+    var $this = this;
+    utils.alertDelete({
+      title: '删除模板',
+      text: '此操作将删除模板' + template.name + '，确认吗？',
+      callback: function () {
+        utils.loading(true);
+        $api.delete($url, {
+          name: template.name
+        }).then(function (response) {
+          var res = response.data;
+
+          $this.templateInfoList = res.value;
+          $this.pageType = 'list';
+        }).catch(function (error) {
+          $this.pageAlert = utils.getPageAlert(error);
+        }).then(function () {
+          utils.loading(false);
+        });
+      }
+    });
   },
 
-  btnCopyClick: function () {
-    var copyTextarea = document.querySelector('.js-copytextarea');
-    copyTextarea.focus();
-    copyTextarea.select();
+  btnHtmlClick: function (template) {
+    var $this = this;
+    this.name = template.name;
+    utils.loading(true);
+    $api.get($urlHtml + '?name=' + this.name).then(function (response) {
+      var res = response.data;
 
-    try {
-      document.execCommand('copy');
+      $this.templateHtml = res.value;
+      $this.pageType = 'edit';
+      setTimeout(function () {
+        $('.js-copytextarea').css({
+          height: $(document).height() - 180
+        });
+      }, 100);
+    }).catch(function (error) {
+      $this.pageAlert = utils.getPageAlert(error);
+    }).then(function () {
+      utils.loading(false);
+    });
+  },
+
+  btnSubmitClick: function () {
+    var $this = this;
+    utils.loading(true);
+    $api.post($url + '?siteId=' + this.siteId, {
+      name: this.name,
+      templateHtml: this.templateHtml
+    }).then(function (response) {
+      var res = response.data;
+
       swal({
         toast: true,
         type: 'success',
-        title: "复制成功！",
+        title: "模板编辑成功！",
         showConfirmButton: false,
         timer: 2000
-      })
-    } catch (err) {}
+      }).then(function () {
+        $this.pageType = 'list';
+      });
+    }).catch(function (error) {
+      $this.pageAlert = utils.getPageAlert(error);
+    }).then(function () {
+      utils.loading(false);
+    });
   }
 };
 
@@ -80,6 +124,6 @@ var $vue = new Vue({
   data: data,
   methods: methods,
   created: function () {
-    this.loadTemplates('submit');
+    this.loadTemplates();
   }
 });

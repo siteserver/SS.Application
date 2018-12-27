@@ -20,53 +20,57 @@
 
 <body class="p-0">
   <div id="main" class="m-t-15 m-b-15 m-l-15 m-r-15">
+    <div v-if="pageAlert" class="alert" v-bind:class="{ 'alert-warning': pageAlert.type === 'warning', 'alert-success': pageAlert.type === 'success', 'alert-danger': pageAlert.type === 'danger' }">
+      <button v-on:click="pageAlert = null" class="close" data-dismiss="alert">×</button>
+      <span v-html="pageAlert.html"></span>
+    </div>
     <template v-if="pageType === 'list'">
-      <div style="padding: 10px; margin-bottom: 10px">
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a class="nav-link" :class="{active: templateType === 'submit'}" href="javascript:;" @click="loadTemplates('submit')">申请提交模板</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" :class="{active: templateType === 'query'}" href="javascript:;" @click="loadTemplates('query')">申请查询模板</a>
-          </li>
-        </ul>
-      </div>
-      <div v-if="pageAlert" class="alert" v-bind:class="{ 'alert-warning': pageAlert.type === 'warning', 'alert-success': pageAlert.type === 'success', 'alert-danger': pageAlert.type === 'danger' }">
-        <button v-on:click="pageAlert = null" class="close" data-dismiss="alert">×</button>
-        <span v-html="pageAlert.html"></span>
-      </div>
       <div class="card m-b-20  bg-light text-xs-center">
         <div class="card-body pb-0">
           <blockquote class="card-bodyquote mb-0">
-            <p>依申请公开表单标签：<mark>&lt;stl:application theme="样式名称"&gt;&lt;/stl:application&gt;</mark>，如果希望自定义显示样式，可以点击自定义标签获取并修改模板代码。
+            <p>依申请公开表单标签：<mark>&lt;stl:application type="模板文件夹"&gt;&lt;/stl:application&gt;</mark>，如果希望自定义模板样式，可以点击克隆按钮然后修改模板代码。
             </p>
           </blockquote>
         </div>
       </div>
       <div class="row">
-        <div v-for="template in templates" class="col-sm-6 col-md-4 col-lg-3 col-xs-12">
+        <div v-for="templateInfo in templateInfoList" class="col-sm-6 col-md-4 col-lg-3 col-xs-12">
           <div class="card m-b-20">
-            <img class="img-fluid" :src="template.templateUrl + '/' + template.id + '/sample.png'">
             <div class="card-body">
-              <h5 class="text-center">样式名称：{{template.id}}</h5>
+              <h5 class="card-title text-primary mb-3">模板文件夹：{{templateInfo.name}}</h5>
+              <h6 class="card-subtitle text-muted"> <mark style="line-height: 24px">&lt;stl:application
+                  type="{{templateInfo.name}}"&gt;&lt;/stl:application&gt;</mark> </h6>
+            </div>
+            <img v-if="templateInfo.icon" class="img-fluid" :src="getIconUrl(templateInfo)">
+            <div class="card-body">
               <div class="text-center">
-                <a href="javascript:;" @click="btnGetTemplateDefaultClick(template)" class="card-link">默认标签</a>
-                <a href="javascript:;" @click="btnGetTemplateHtmlClick(template)" class="card-link">自定义标签</a>
-                <a :href="getPreviewUrl(template)" target="_blank" class="card-link">预 览</a>
+                <p>{{ templateInfo.description }}</p>
+                <template v-if="templateInfo.publisher">
+                  <h5 class="text-warning">发布人： {{ templateInfo.publisher }}</h5>
+                  <a href="javascript:;" @click="btnCloneClick(templateInfo.name)" class="card-link">克 隆</a>
+                </template>
+                <template v-else>
+                  <a href="javascript:;" @click="btnHtmlClick(templateInfo)" class="card-link">编 辑</a>
+                  <a href="javascript:;" @click="btnDeleteClick(templateInfo)" class="card-link">删 除</a>
+                </template>
+                <a :href="getPreviewUrl(templateInfo)" target="_blank" class="card-link">预 览</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </template>
-    <template v-else-if="pageType === 'templateHtml'">
+    <template v-else-if="pageType === 'edit'">
+      <div class="form-group">
+        <label>模板文件夹：<strong>{{ name }}</strong></label>
+      </div>
       <div class="form-group">
         <label>模板代码</label>
         <textarea v-model="templateHtml" class="form-control js-copytextarea"></textarea>
       </div>
       <hr />
       <div class="text-center">
-        <button class="btn btn-primary m-r-5" v-on:click="btnCopyClick">复制代码</button>
+        <button class="btn btn-primary m-r-5" v-on:click="btnSubmitClick">确 定</button>
         <button class="btn m-r-5" v-on:click="pageType = 'list'">返 回</button>
       </div>
     </template>
