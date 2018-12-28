@@ -56,8 +56,10 @@ var methods = {
       text: '此操作将删除模板' + template.name + '，确认吗？',
       callback: function () {
         utils.loading(true);
-        $api.delete($url, {
-          name: template.name
+        $api.delete($url + '?siteId=' + this.siteId, {
+          params: {
+            name: template.name
+          }
         }).then(function (response) {
           var res = response.data;
 
@@ -76,7 +78,7 @@ var methods = {
     var $this = this;
     this.name = template.name;
     utils.loading(true);
-    $api.get($urlHtml + '?name=' + this.name).then(function (response) {
+    $api.get($urlHtml + '?siteId=' + this.siteId + '&name=' + this.name).then(function (response) {
       var res = response.data;
 
       $this.templateHtml = res.value;

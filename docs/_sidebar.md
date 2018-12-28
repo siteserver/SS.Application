@@ -7,6 +7,7 @@
 
   - [依申请公开设置](settings.md)
   - [部门及权限设置](departments.md)
+  - [申请处理流程](flow.md)
   - [新增申请](add.md)
   - [受理申请](accept.md)
   - [办理申请](reply.md)
@@ -14,8 +15,8 @@
 
 - 模板标签调用
 
-  - [申请提交模板标签](stlSubmit.md)
-  - [申请查询模板标签](stlQuery.md)
+  - [模板标签调用](templates.md)
+  - [自定义显示样式](templatesEdit.md)
 
 - 附录
 

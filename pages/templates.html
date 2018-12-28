@@ -46,7 +46,7 @@
               <div class="text-center">
                 <p>{{ templateInfo.description }}</p>
                 <template v-if="templateInfo.publisher">
-                  <h5 class="text-warning">发布人： {{ templateInfo.publisher }}</h5>
+                  <h5 class="text-warning">作者： {{ templateInfo.publisher }}</h5>
                   <a href="javascript:;" @click="btnCloneClick(templateInfo.name)" class="card-link">克 隆</a>
                 </template>
                 <template v-else>

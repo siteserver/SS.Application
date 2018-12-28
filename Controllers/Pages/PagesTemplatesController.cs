@@ -91,12 +91,12 @@ namespace SS.Application.Controllers.Pages
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
-                var name = request.GetPostString("name");
+                var name = request.GetQueryString("name");
                 TemplateManager.DeleteTemplate(name);
 
                 return Ok(new
                 {
-                    Value = true
+                    Value = TemplateManager.GetTemplateInfoList()
                 });
             }
             catch (Exception ex)

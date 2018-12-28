@@ -107,10 +107,28 @@
     <None Include="assets\fonts\fontawesome-webfont.woff" />
     <None Include="assets\fonts\fontawesome-webfont.woff2" />
     <None Include="assets\fonts\FontAwesome.otf" />
+    <None Include="docs\accept.md" />
+    <None Include="docs\add.md" />
+    <None Include="docs\check.md" />
+    <None Include="docs\departments.md" />
+    <None Include="docs\flow.md" />
+    <None Include="docs\install.md" />
+    <None Include="docs\law.md" />
+    <None Include="docs\readme.md" />
+    <None Include="docs\reply.md" />
+    <None Include="docs\settings.md" />
+    <None Include="docs\summary.md" />
+    <None Include="docs\templateApply.md" />
+    <None Include="docs\templateQuery.md" />
+    <None Include="docs\templates.md" />
+    <None Include="docs\templatesEdit.md" />
+    <None Include="docs\_sidebar.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="SS.Application.nuspec" />
+    <None Include="templates\Apply\config.json" />
+    <None Include="templates\Query\config.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\bootstrap.min.css" />
@@ -119,10 +137,11 @@
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\images\error.png" />
     <Content Include="assets\images\favicon.ico" />
+    <Content Include="assets\images\icon.png" />
     <Content Include="assets\images\loading.gif" />
     <Content Include="assets\images\success.png" />
+    <Content Include="assets\js\apply.js" />
     <Content Include="assets\js\query.js" />
-    <Content Include="assets\js\submit.js" />
     <Content Include="assets\js\utils.js" />
     <Content Include="assets\lib\axios-0.18.0.min.js" />
     <Content Include="assets\lib\bootstrap.min.js" />
@@ -161,6 +180,37 @@
     <Content Include="assets\lib\web-uploader\js\spark-md5.js" />
     <Content Include="assets\lib\web-uploader\Q.Uploader.file.all.js" />
     <Content Include="assets\lib\web-uploader\Q.Uploader.image.all.js" />
+    <Content Include="docs\assets\accept\01.png" />
+    <Content Include="docs\assets\accept\02.png" />
+    <Content Include="docs\assets\accept\03.png" />
+    <Content Include="docs\assets\add\01.png" />
+    <Content Include="docs\assets\check\01.png" />
+    <Content Include="docs\assets\check\02.png" />
+    <Content Include="docs\assets\check\03.png" />
+    <Content Include="docs\assets\departments\01.png" />
+    <Content Include="docs\assets\departments\02.png" />
+    <Content Include="docs\assets\departments\03.png" />
+    <Content Include="docs\assets\departments\04.png" />
+    <Content Include="docs\assets\flow\01.png" />
+    <Content Include="docs\assets\install\01.png" />
+    <Content Include="docs\assets\install\02.png" />
+    <Content Include="docs\assets\install\03.png" />
+    <Content Include="docs\assets\install\04.png" />
+    <Content Include="docs\assets\reply\01.png" />
+    <Content Include="docs\assets\reply\02.png" />
+    <Content Include="docs\assets\reply\03.png" />
+    <Content Include="docs\assets\settings\01.png" />
+    <Content Include="docs\assets\settings\02.png" />
+    <Content Include="docs\assets\templatesEdit\01.png" />
+    <Content Include="docs\assets\templatesEdit\02.png" />
+    <Content Include="docs\assets\templatesEdit\03.png" />
+    <Content Include="docs\assets\templates\01.png" />
+    <Content Include="docs\assets\templates\02.png" />
+    <Content Include="docs\assets\templates\03.png" />
+    <Content Include="docs\assets\templates\04.png" />
+    <Content Include="docs\assets\templates\05.png" />
+    <Content Include="docs\index.html" />
+    <Content Include="docs\logo.png" />
     <Content Include="docs\logo.svg" />
     <Content Include="pages\add.html" />
     <Content Include="pages\add.js" />
@@ -184,28 +234,19 @@
     <Content Include="pages\departments.js" />
     <Content Include="pages\departmentsLayerAdd.html" />
     <Content Include="pages\departmentsLayerAdd.js" />
-    <Content Include="pages\fields.html" />
-    <Content Include="pages\fields.js" />
-    <Content Include="pages\fieldsLayerStyle.html" />
-    <Content Include="pages\fieldsLayerStyle.js" />
-    <Content Include="pages\fieldsLayerValidate.html" />
-    <Content Include="pages\fieldsLayerValidate.js" />
-    <Content Include="pages\forms.html" />
-    <Content Include="pages\forms.js" />
-    <Content Include="pages\logAdd.html" />
-    <Content Include="pages\logAdd.js" />
-    <Content Include="pages\logs.html" />
-    <Content Include="pages\logs.js" />
-    <Content Include="pages\logsLayerReply.html" />
-    <Content Include="pages\logsLayerReply.js" />
     <Content Include="pages\settings.html" />
     <Content Include="pages\settings.js" />
     <Content Include="pages\templates.html" />
     <Content Include="pages\templates.js" />
+    <Content Include="pages\templatesLayerEdit.html" />
+    <Content Include="pages\templatesLayerEdit.js" />
     <Content Include="pages\view.html" />
     <Content Include="pages\view.js" />
+    <Content Include="templates\Apply\images\icon.png" />
+    <Content Include="templates\Apply\index.html" />
+    <Content Include="templates\Query\images\icon.png" />
+    <Content Include="templates\Query\index.html" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

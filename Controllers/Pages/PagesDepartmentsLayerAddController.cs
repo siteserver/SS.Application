@@ -32,10 +32,7 @@ namespace SS.Application.Controllers.Pages
                     var permissions = Context.AdminApi.GetPermissions(userName);
                     if (permissions.IsSiteAdmin(siteId)) continue;
 
-                    if (permissions.HasSitePermissions(siteId, ApplicationUtils.PluginId))
-                    {
-                        allUserNames.Add(userName);
-                    }
+                    allUserNames.Add(userName);
                 }
 
                 return Ok(new
@@ -67,10 +64,7 @@ namespace SS.Application.Controllers.Pages
                     var permissions = Context.AdminApi.GetPermissions(userName);
                     if (permissions.IsSiteAdmin(siteId)) continue;
 
-                    if (permissions.HasSitePermissions(siteId, ApplicationUtils.PluginId))
-                    {
-                        allUserNames.Add(userName);
-                    }
+                    allUserNames.Add(userName);
                 }
 
                 return Ok(new
@@ -99,7 +93,7 @@ namespace SS.Application.Controllers.Pages
                     Id = 0,
                     SiteId = siteId,
                     DepartmentName = request.GetPostString("departmentName"),
-                    UserNames = request.GetPostString("userNames"),
+                    UserNames = request.GetPostString("userNames").Trim(','),
                     Taxis = request.GetPostInt("taxis")
                 };
 
@@ -127,7 +121,7 @@ namespace SS.Application.Controllers.Pages
 
                 var departmentInfo = DepartmentManager.GetDepartmentInfo(siteId, id);
                 departmentInfo.DepartmentName = request.GetPostString("departmentName");
-                departmentInfo.UserNames = request.GetPostString("userNames");
+                departmentInfo.UserNames = request.GetPostString("userNames").Trim(',');
                 departmentInfo.Taxis = request.GetPostInt("taxis");
 
                 DepartmentDao.Update(departmentInfo);
