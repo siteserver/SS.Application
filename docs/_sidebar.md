@@ -1,10 +1,6 @@
 - SS.Application 依申请公开插件
 
-  - [依申请公开插件介绍](readme.md)
-  - [安装依申请公开插件](install.md)
-
-- 插件使用说明
-
+  - [依申请公开插件介绍](README.md)
   - [依申请公开设置](settings.md)
   - [部门及权限设置](departments.md)
   - [申请处理流程](flow.md)
