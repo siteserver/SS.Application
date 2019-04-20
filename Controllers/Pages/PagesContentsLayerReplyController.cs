@@ -5,7 +5,6 @@ using System.Web.Http;
 using SiteServer.Plugin;
 using SS.Application.Core;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Controllers.Pages
@@ -21,19 +20,19 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
-                var contentInfo = DataDao.GetDataInfo(contentId);
+                var contentInfo = Main.DataRepository.GetDataInfo(contentId);
                 if (contentInfo == null || contentInfo.State != DataState.Accepted.Value &&
                     contentInfo.State != DataState.Redo.Value &&
                     contentInfo.State != DataState.Replied.Value) return NotFound();
 
-                var fileInfoList = new List<FileInfo>();
+                IList<FileInfo> fileInfoList = new List<FileInfo>();
                 if (contentInfo.IsReplyFiles)
                 {
-                    fileInfoList = FileDao.GetFileInfoList(siteId, contentId);
+                    fileInfoList = Main.FileRepository.GetFileInfoList(siteId, contentId);
                 }
 
                 return Ok(new
@@ -53,7 +52,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -66,13 +65,13 @@ namespace SS.Application.Controllers.Pages
 
                 if (string.IsNullOrEmpty(fileName)) fileName = System.IO.Path.GetFileName(file.FileName);
 
-                var filePath = Context.UtilsApi.GetUploadFilePath(siteId, fileName);
+                var filePath = Context.SiteApi.GetUploadFilePath(siteId, fileName);
                 file.SaveAs(filePath);
 
                 var fileInfo = new FileInfo
                 {
                     FileName = fileName,
-                    FileUrl = Context.UtilsApi.GetUploadFileUrl(siteId, fileName),
+                    FileUrl = Context.SiteApi.GetSiteUrlByFilePath(filePath),
                     Length = file.ContentLength
                 };
 
@@ -97,39 +96,37 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
                 var replyContent = request.GetPostString("replyContent");
                 var fileInfoList = request.GetPostObject<List<FileInfo>>("fileInfoList");
 
-                var fileInfoListDatabase = FileDao.GetFileInfoList(siteId, contentId);
+                var fileInfoListDatabase = Main.FileRepository.GetFileInfoList(siteId, contentId);
 
-                DataDao.UpdateStateAndReply(siteId, contentId, replyContent, fileInfoList.Count > 0);
+                Main.DataRepository.UpdateStateAndReply(siteId, contentId, replyContent, fileInfoList.Count > 0);
 
                 LogManager.Reply(siteId, contentId, request.AdminId);
 
                 foreach (var fileInfo in fileInfoList)
                 {
-                    if (fileInfo.Id == 0)
-                    {
-                        fileInfo.SiteId = siteId;
-                        fileInfo.DataId = contentId;
-                        FileDao.Insert(fileInfo);
-                    }
+                    if (fileInfo.Id != 0) continue;
+                    fileInfo.SiteId = siteId;
+                    fileInfo.DataId = contentId;
+                    Main.FileRepository.Insert(fileInfo);
                 }
 
                 foreach (var fileInfoDatabase in fileInfoListDatabase)
                 {
                     if (fileInfoList.Exists(f => f.Id == fileInfoDatabase.Id)) continue;
 
-                    var filePath = Context.UtilsApi.GetUploadFilePath(siteId, fileInfoDatabase.FileName);
+                    var filePath = Context.SiteApi.GetUploadFilePath(siteId, fileInfoDatabase.FileName);
                     if (System.IO.File.Exists(filePath))
                     {
                         System.IO.File.Delete(filePath);
                     }
-                    FileDao.Delete(fileInfoDatabase.Id);
+                    Main.FileRepository.Delete(fileInfoDatabase.Id);
                 }
 
                 return Ok(new

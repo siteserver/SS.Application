@@ -4,7 +4,6 @@ using System.Web.Http;
 using SiteServer.Plugin;
 using SS.Application.Core;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Controllers.Pages
@@ -19,7 +18,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -45,7 +44,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -96,7 +95,7 @@ namespace SS.Application.Controllers.Pages
                     DepartmentName = departmentInfo == null ? string.Empty : departmentInfo.DepartmentName
                 };
 
-                DataDao.Insert(dataInfo);
+                Main.DataRepository.Insert(dataInfo);
 
                 return Ok(new
                 {

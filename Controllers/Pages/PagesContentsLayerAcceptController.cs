@@ -4,7 +4,6 @@ using System.Web.Http;
 using SiteServer.Plugin;
 using SS.Application.Core;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Controllers.Pages
@@ -19,7 +18,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -28,7 +27,7 @@ namespace SS.Application.Controllers.Pages
                 var dataInfoList = new List<DataInfo>();
                 foreach (var contentId in contentIdList)
                 {
-                    var contentInfo = DataDao.GetDataInfo(contentId);
+                    var contentInfo = Main.DataRepository.GetDataInfo(contentId);
                     if (contentInfo == null || contentInfo.State != DataState.New.Value) continue;
 
                     dataInfoList.Add(contentInfo);
@@ -53,7 +52,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -62,7 +61,7 @@ namespace SS.Application.Controllers.Pages
 
                 foreach (var contentId in contentIdList)
                 {
-                    DataDao.UpdateStateAndDepartmentId(siteId, contentId, DataState.Accepted, departmentId);
+                    Main.DataRepository.UpdateStateAndDepartmentId(siteId, contentId, DataState.Accepted, departmentId);
 
                     LogManager.Accept(siteId, contentId, request.AdminId, departmentId);
                 }

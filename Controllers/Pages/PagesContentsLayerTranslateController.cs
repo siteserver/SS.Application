@@ -19,7 +19,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -28,7 +28,7 @@ namespace SS.Application.Controllers.Pages
                 var dataInfoList = new List<DataInfo>();
                 foreach (var contentId in contentIdList)
                 {
-                    var contentInfo = DataDao.GetDataInfo(contentId);
+                    var contentInfo = Main.DataRepository.GetDataInfo(contentId);
                     if (contentInfo == null) continue;
 
                     dataInfoList.Add(contentInfo);
@@ -53,7 +53,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -62,7 +62,7 @@ namespace SS.Application.Controllers.Pages
 
                 foreach (var contentId in contentIdList)
                 {
-                    DataDao.UpdateDepartmentId(siteId, contentId, departmentId);
+                    Main.DataRepository.UpdateDepartmentId(siteId, contentId, departmentId);
 
                     LogManager.Translate(siteId, contentId, request.AdminId, departmentId);
                 }

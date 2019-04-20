@@ -4,7 +4,6 @@ using System.Web.Http;
 using SiteServer.Plugin;
 using SS.Application.Core;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Controllers
@@ -19,7 +18,7 @@ namespace SS.Application.Controllers
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
 
                 var settings = ApplicationUtils.GetSettings(siteId);
@@ -44,7 +43,7 @@ namespace SS.Application.Controllers
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
 
                 var provideType = request.GetPostObject<List<string>>("provideType");
@@ -94,7 +93,7 @@ namespace SS.Application.Controllers
                     DepartmentName = departmentInfo == null ? string.Empty : departmentInfo.DepartmentName
                 };
 
-                DataDao.Insert(dataInfo);
+                Main.DataRepository.Insert(dataInfo);
 
                 return Ok(new
                 {
@@ -112,7 +111,7 @@ namespace SS.Application.Controllers
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
 
                 var isOrganization = request.GetPostBool("isOrganization");
@@ -120,13 +119,13 @@ namespace SS.Application.Controllers
                 var orgName = request.GetPostString("orgName");
                 var queryCode = request.GetPostString("queryCode");
 
-                var dataInfo = DataDao.Query(siteId, isOrganization, civicName, orgName, queryCode);
+                var dataInfo = Main.DataRepository.Query(siteId, isOrganization, civicName, orgName, queryCode);
                 if (dataInfo == null) return NotFound();
 
-                var fileInfoList = new List<FileInfo>();
+                IList<FileInfo> fileInfoList = new List<FileInfo>();
                 if (dataInfo.IsReplyFiles)
                 {
-                    fileInfoList = FileDao.GetFileInfoList(siteId, dataInfo.Id);
+                    fileInfoList = Main.FileRepository.GetFileInfoList(siteId, dataInfo.Id);
                 }
 
                 return Ok(new

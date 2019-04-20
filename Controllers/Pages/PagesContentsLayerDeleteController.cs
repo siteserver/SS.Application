@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Http;
 using SiteServer.Plugin;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Controllers.Pages
@@ -18,7 +17,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -27,7 +26,7 @@ namespace SS.Application.Controllers.Pages
                 var dataInfoList = new List<DataInfo>();
                 foreach (var contentId in contentIdList)
                 {
-                    var contentInfo = DataDao.GetDataInfo(contentId);
+                    var contentInfo = Main.DataRepository.GetDataInfo(contentId);
                     if (contentInfo == null) continue;
 
                     dataInfoList.Add(contentInfo);
@@ -49,7 +48,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -57,8 +56,8 @@ namespace SS.Application.Controllers.Pages
 
                 foreach (var contentId in contentIdList)
                 {
-                    DataDao.Delete(siteId, contentId);
-                    LogDao.DeleteByDataId(contentId);
+                    Main.DataRepository.Delete(siteId, contentId);
+                    Main.LogRepository.DeleteByDataId(contentId);
                 }
 
                 return Ok(new

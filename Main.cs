@@ -10,22 +10,32 @@ namespace SS.Application
 {
     public class Main : PluginBase
     {
+        public static DataRepository DataRepository { get; private set; }
+        public static DepartmentRepository DepartmentRepository { get; private set; }
+        public static FileRepository FileRepository { get; private set; }
+        public static LogRepository LogRepository { get; private set; }
+
         public override void Startup(IService service)
         {
+            DataRepository = new DataRepository();
+            DepartmentRepository = new DepartmentRepository();
+            FileRepository = new FileRepository();
+            LogRepository = new LogRepository();
+
             service
                 .AddSiteMenu(siteId =>
                 {
-                    var request = Context.GetCurrentRequest();
+                    var request = Context.AuthenticatedRequest;
                     if (!request.AdminPermissions.IsSiteAdmin(siteId))
                     {
                         var userDepartmentIdList = DepartmentManager.GetDepartmentIdList(siteId, request.AdminName);
                         if (userDepartmentIdList.Count == 0) return null;
 
-                        var acceptCount = DataDao.GetUserCount(siteId, new List<DataState>
+                        var acceptCount = DataRepository.GetUserCount(siteId, new List<DataState>
                         {
                             DataState.New
                         }, string.Empty, 0, userDepartmentIdList);
-                        var replyCount = DataDao.GetUserCount(siteId, new List<DataState>
+                        var replyCount = DataRepository.GetUserCount(siteId, new List<DataState>
                         {
                             DataState.Accepted,
                             DataState.Redo
@@ -34,7 +44,7 @@ namespace SS.Application
                         return new Menu
                         {
                             Text = "依申请公开",
-                            IconClass = "ion-ios-book",
+                            IconClass = "fa fa-address-book-o",
                             Menus = new List<Menu>
                             {
                                 new Menu
@@ -75,7 +85,7 @@ namespace SS.Application
                         return new Menu
                         {
                             Text = "依申请公开",
-                            IconClass = "ion-ios-book",
+                            IconClass = "fa fa-address-book-o",
                             Menus = new List<Menu>
                             {
                                 new Menu
@@ -122,10 +132,10 @@ namespace SS.Application
                         };
                     }
                 })
-                .AddDatabaseTable(DataDao.TableName, DataDao.Columns)
-                .AddDatabaseTable(DepartmentDao.TableName, DepartmentDao.Columns)
-                .AddDatabaseTable(LogDao.TableName, LogDao.Columns)
-                .AddDatabaseTable(FileDao.TableName, FileDao.Columns)
+                .AddDatabaseTable(DataRepository.TableName, DataRepository.TableColumns)
+                .AddDatabaseTable(DepartmentRepository.TableName, DepartmentRepository.TableColumns)
+                .AddDatabaseTable(LogRepository.TableName, LogRepository.TableColumns)
+                .AddDatabaseTable(FileRepository.TableName, FileRepository.TableColumns)
                 .AddStlElementParser(StlApplication.ElementName, StlApplication.Parse)
                 ;
         }

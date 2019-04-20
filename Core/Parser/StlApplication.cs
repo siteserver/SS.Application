@@ -28,7 +28,7 @@ namespace SS.Application.Core.Parser
             {
                 var elementId = $"iframe_{StringUtils.GetShortGuid(false)}";
                 var libUrl = Context.PluginApi.GetPluginUrl(ApplicationUtils.PluginId, "assets/lib/iframe-resizer-3.6.3/iframeResizer.min.js");
-                var pageUrl = Context.PluginApi.GetPluginUrl(ApplicationUtils.PluginId, $"templates/{type}/index.html?siteId={context.SiteId}&apiUrl={HttpUtility.UrlEncode(Context.UtilsApi.GetApiUrl())}");
+                var pageUrl = Context.PluginApi.GetPluginUrl(ApplicationUtils.PluginId, $"templates/{type}/index.html?siteId={context.SiteId}&apiUrl={HttpUtility.UrlEncode(Context.Environment.ApiUrl)}");
 
                 return $@"
 <iframe id=""{elementId}"" frameborder=""0"" scrolling=""no"" src=""{pageUrl}"" style=""width: 1px;min-width: 100%;""></iframe>
@@ -39,7 +39,7 @@ namespace SS.Application.Core.Parser
 
             return $@"
 <script>
-var $apiUrl = '{Context.UtilsApi.GetApiUrl()}';
+var $apiUrl = '{Context.Environment.ApiUrl}';
 var $siteId = {context.SiteId};
 </script>
 {context.StlInnerHtml}

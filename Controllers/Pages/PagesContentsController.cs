@@ -4,7 +4,6 @@ using System.Web.Http;
 using SiteServer.Plugin;
 using SS.Application.Core;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Controllers.Pages
@@ -21,7 +20,7 @@ namespace SS.Application.Controllers.Pages
         {
             try
             {
-                var request = Context.GetCurrentRequest();
+                var request = Context.AuthenticatedRequest;
                 var siteId = request.GetQueryInt("siteId");
                 if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -62,7 +61,7 @@ namespace SS.Application.Controllers.Pages
                 {
                     if (isSearch)
                     {
-                        totalCount = DataDao.GetCount(siteId, stateList, keyword, departmentId);
+                        totalCount = Main.DataRepository.GetCount(siteId, stateList, keyword, departmentId);
                     }
                     else
                     {
@@ -74,14 +73,14 @@ namespace SS.Application.Controllers.Pages
                 else
                 {
                     userDepartmentIdList = DepartmentManager.GetDepartmentIdList(siteId, request.AdminName);
-                    totalCount = DataDao.GetUserCount(siteId, stateList, keyword, departmentId, userDepartmentIdList);
+                    totalCount = Main.DataRepository.GetUserCount(siteId, stateList, keyword, departmentId, userDepartmentIdList);
                 }
 
                 var pages = Convert.ToInt32(Math.Ceiling((double)totalCount / ApplicationUtils.PageSize));
                 if (pages == 0) pages = 1;
                 if (page > pages) page = pages;
 
-                List<DataInfo> dataInfoList;
+                IList<DataInfo> dataInfoList;
                 if (totalCount == 0)
                 {
                     dataInfoList = new List<DataInfo>();
@@ -92,7 +91,7 @@ namespace SS.Application.Controllers.Pages
                     {
                         if (totalCount <= ApplicationUtils.PageSize)
                         {
-                            dataInfoList = DataDao.GetDataInfoList(siteId, stateList, keyword, departmentId, 0, totalCount);
+                            dataInfoList = Main.DataRepository.GetDataInfoList(siteId, stateList, keyword, departmentId, 0, totalCount);
                         }
                         else
                         {
@@ -101,7 +100,7 @@ namespace SS.Application.Controllers.Pages
                             var limit = totalCount - offset > ApplicationUtils.PageSize
                                 ? ApplicationUtils.PageSize
                                 : totalCount - offset;
-                            dataInfoList = DataDao.GetDataInfoList(siteId, stateList, keyword, departmentId, offset, limit);
+                            dataInfoList = Main.DataRepository.GetDataInfoList(siteId, stateList, keyword, departmentId, offset, limit);
                         }
                     }
                     else
@@ -111,7 +110,7 @@ namespace SS.Application.Controllers.Pages
                         var limit = totalCount - offset > ApplicationUtils.PageSize
                             ? ApplicationUtils.PageSize
                             : totalCount - offset;
-                        dataInfoList = DataDao.GetUserDataInfoList(siteId, stateList, keyword, departmentId, userDepartmentIdList, offset, limit);
+                        dataInfoList = Main.DataRepository.GetUserDataInfoList(siteId, stateList, keyword, departmentId, userDepartmentIdList, offset, limit);
                     }
                 }
 
@@ -168,7 +167,7 @@ namespace SS.Application.Controllers.Pages
         //{
         //    try
         //    {
-        //        var request = Context.GetCurrentRequest();
+        //        var request = Context.AuthenticatedRequest;
         //        var siteId = request.GetPostInt("siteId");
         //        if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 
@@ -214,7 +213,7 @@ namespace SS.Application.Controllers.Pages
         //{
         //    try
         //    {
-        //        var request = Context.GetCurrentRequest();
+        //        var request = Context.AuthenticatedRequest;
         //        var siteId = request.GetPostInt("siteId");
         //        if (!request.IsAdminLoggin || !request.AdminPermissions.HasSitePermissions(siteId, ApplicationUtils.PluginId)) return Unauthorized();
 

@@ -1,22 +1,25 @@
 ﻿using System;
+using Datory;
 
 namespace SS.Application.Core.Model
 {
-    public class LogInfo
+    [Table("ss_application_log")]
+    public class LogInfo : Entity
     {
-        public int Id { get; set; }
-
+        [TableColumn]
         public int SiteId { get; set; }
 
+        [TableColumn]
         public int DataId { get; set; }
 
+        [TableColumn]
         public int UserId { get; set; }
 
-        public DateTime AddDate { get; set; }
+        [TableColumn]
+        public DateTime? AddDate { get; set; }
 
+        [TableColumn]
         public string Summary { get; set; }
-
-        // not exists
 
         public string UserName { get; set; }
     }

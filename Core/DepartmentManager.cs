@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 using SS.Application.Core.Utils;
 
 namespace SS.Application.Core
@@ -27,7 +26,7 @@ namespace SS.Application.Core
                     departmentInfoList = CacheUtils.Get<List<DepartmentInfo>>(cacheKey);
                     if (departmentInfoList == null)
                     {
-                        departmentInfoList = DepartmentDao.GetDepartmentInfoList(siteId);
+                        departmentInfoList = Main.DepartmentRepository.GetDepartmentInfoList(siteId);
 
                         CacheUtils.InsertHours(cacheKey, departmentInfoList, 12);
                     }

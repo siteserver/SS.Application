@@ -26,7 +26,7 @@ namespace SS.Application.Core
                     retval = CacheUtils.Get<Dictionary<string, int>>(cacheKey);
                     if (retval == null)
                     {
-                        retval = DataDao.GetDataCounts(siteId);
+                        retval = Main.DataRepository.GetDataCounts(siteId);
 
                         CacheUtils.InsertHours(cacheKey, retval, 1);
                     }

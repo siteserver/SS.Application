@@ -1,7 +1,6 @@
 ﻿using System;
 using SiteServer.Plugin;
 using SS.Application.Core.Model;
-using SS.Application.Core.Provider;
 
 namespace SS.Application.Core
 {
@@ -9,7 +8,7 @@ namespace SS.Application.Core
     {
         public static void NewApplication(DataInfo dataInfo)
         {
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = dataInfo.SiteId,
@@ -27,7 +26,7 @@ namespace SS.Application.Core
             var summary = adminInfo.DisplayName == adminInfo.UserName
                 ? $"{adminInfo.UserName}转办申请至{DepartmentManager.GetDepartmentName(siteId, departmentId)}"
                 : $"{adminInfo.DisplayName}（{adminInfo.UserName}）转办申请至{DepartmentManager.GetDepartmentName(siteId, departmentId)}";
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = siteId,
@@ -48,7 +47,7 @@ namespace SS.Application.Core
             {
                 summary += $"，转办至 {DepartmentManager.GetDepartmentName(siteId, departmentId)}";
             }
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = siteId,
@@ -65,7 +64,7 @@ namespace SS.Application.Core
             var summary = adminInfo.DisplayName == adminInfo.UserName
                 ? $"{adminInfo.UserName}拒绝受理申请"
                 : $"{adminInfo.DisplayName}（{adminInfo.UserName}）拒绝受理申请";
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = siteId,
@@ -82,7 +81,7 @@ namespace SS.Application.Core
             var summary = adminInfo.DisplayName == adminInfo.UserName
                 ? $"{adminInfo.UserName}审核通过"
                 : $"{adminInfo.DisplayName}（{adminInfo.UserName}）审核通过";
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = siteId,
@@ -99,7 +98,7 @@ namespace SS.Application.Core
             var summary = adminInfo.DisplayName == adminInfo.UserName
                 ? $"{adminInfo.UserName}要求返工：{instruction}"
                 : $"{adminInfo.DisplayName}（{adminInfo.UserName}）要求返工：{instruction}";
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = siteId,
@@ -116,7 +115,7 @@ namespace SS.Application.Core
             var summary = adminInfo.DisplayName == adminInfo.UserName
                 ? $"{adminInfo.UserName}办理申请"
                 : $"{adminInfo.DisplayName}（{adminInfo.UserName}）办理申请";
-            LogDao.Insert(new LogInfo
+            Main.LogRepository.Insert(new LogInfo
             {
                 Id = 0,
                 SiteId = siteId,
